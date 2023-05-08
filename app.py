@@ -24,13 +24,13 @@ def calculate_animal(date_of_birth):
 
 # Define the Streamlit app
 def app():
-    st.title("Animal and Life Proverb Calculator")
-    st.write("Enter your date of birth to find out your animal and associated life proverb in Japanese.")
+    st.title("動物占いと格言作成")
+    st.write("誕生日を入力してください")
     date_of_birth = st.date_input("Date of Birth")
     if date_of_birth:
         animal = calculate_animal(date_of_birth)
         life_saying = animals[animal]
-        st.write(f"Your animal is {animal} and your associated life proverb is '{life_saying}'.")
+        st.write(f"あなたの動物は{animal} あなたの格言は '{life_saying}'です")
 
 # Call the app function to run the Streamlit app
 app()
