@@ -132,6 +132,13 @@ recommendations = {
     'モグラ': '人生は短いものです。大切な人との時間を大切にし、毎日を大切に過ごしましょう。'
 }
 
+# Function to generate a life recommendation in Japanese
+def generate_recommendation(animal):
+    # Replace with actual recommendations
+    recommendations = {animal: f'{animal}に関連する人生の提案' for animal in animals}
+
+    return recommendations[animal]
+
 # Streamlit app
 st.title('ChatGPT試用アプリ')
 st.write('生年月日を入力してください。')
