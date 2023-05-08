@@ -11,7 +11,7 @@ animals = {
     "蛇": "蛇の道は蛇",
     "馬": "馬の耳に念仏",
     "羊": "羊頭狗肉",
-    "猿": "猿も木から落ちる",
+    "猿": "猿木から落ちる",
     "鶏": "鶏口となるも牛後となるな"
 }
 
@@ -31,3 +31,6 @@ def app():
         animal = calculate_animal(date_of_birth)
         life_saying = animals[animal]
         st.write(f"Your animal is {animal} and your associated life proverb is '{life_saying}'.")
+
+# Call the app function to run the Streamlit app
+app()
