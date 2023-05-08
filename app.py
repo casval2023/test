@@ -132,15 +132,15 @@ recommendations = {
     'モグラ': '人生は短いものです。大切な人との時間を大切にし、毎日を大切に過ごしましょう。'
 }
 
-def app():
-    st.title('100種類の動物に対応する100個の人生の格言')
-    st.write('以下は、100種類の動物に対応する100個の人生の格言の一覧です。')
-    st.write('動物の名前を選択すると、対応する人生の格言が表示されます。')
+# Streamlit app
+st.title('ChatGPT試用アプリ')
+st.write('生年月日を入力してください。')
 
-# Select animal
-animal = st.selectbox('動物を選択してください', animals)
+dob = st.date_input('生年月日', datetime.date(2000, 1, 1))
 
-# Display recommendation
-st.write(f'{animal}の人生の格言: {recommendations[animal]}')
-if name == 'main':
-    app()
+
+if st.button('結果を表示'):
+    animal = random.choice(animals)
+    recommendation = generate_recommendation(animal)
+    st.write(f'あなたの動物: {animal}')
+    st.write(f'あなたに関連する人生の提案: {recommendation}')
