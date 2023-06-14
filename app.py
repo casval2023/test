@@ -28,9 +28,15 @@ def save_data(df):
 
 def create_df():
     # 新たなDataFrameを作成
-    df = pd.DataFrame({'A': ['foo', 'bar', 'baz'],
-                       'B': ['qux', 'quux', 'quuz'],
-                       'C': [1, 2, 3]})
+    df = pd.DataFrame({'ID': ['test', 'torajimax', 'kk'],
+                       'PASS': ['test', 'torajimax', 'kk'],
+                       '身長': [180, 175, 160],
+                       '体重': [70, 65, 60],
+                       '体脂肪率': [10, 15, 20],
+                       '年齢': [30, 34, 49],
+                       '性別': ['男性', '男性', '女性'],
+                       'タスク': ['１日1500kcal以内', '１日１万歩達成', '動画講義１章分視聴'],
+                       '感想': ['', '', '']})
     return df
 
 def app():
