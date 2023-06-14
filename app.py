@@ -30,6 +30,7 @@ def create_df():
     # 新たなDataFrameを作成
     df = pd.DataFrame({'ID': ['test', 'torajimax', 'kk'],
                        'PASS': ['test', 'torajimax', 'kk'],
+                       '日付': ['2023/6/14', '2023/6/14', '2023/6/14'],
                        '身長': [180, 175, 160],
                        '体重': [70, 65, 60],
                        '体脂肪率': [10, 15, 20],
