@@ -23,7 +23,7 @@ def load_data():
 def save_data(df):
     # DataFrameをCSVに変換し、S3に保存
     csv_buffer = StringIO()
-    df.to_csv(csv_buffer)
+    df.to_csv(csv_buffer, index=False)
     s3.put_object(Bucket=AWS_S3_BUCKET, Key='df.csv', Body=csv_buffer.getvalue())
 
 def create_df():
