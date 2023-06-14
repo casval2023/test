@@ -1,36 +1,49 @@
+import pandas as pd
+import boto3
+from io import StringIO
 import streamlit as st
-import datetime
 
-# Define the 10 animals and their associated life sayings in Japanese
-animals = {
-    "鼠": "一寸先は闇",
-    "牛": "一日千秋",
-    "虎": "虎穴に入らずんば虎子を得ず",
-    "兎": "走る狗に肉を与えるな",
-    "龍": "風水の神様",
-    "蛇": "蛇の道は蛇",
-    "馬": "馬の耳に念仏",
-    "羊": "羊頭狗肉",
-    "猿": "猿木から落ちる",
-    "鶏": "鶏口となるも牛後となるな"
-}
+# AWSのクレデンシャルを設定（AWS Management Consoleで確認できます）
+AWS_ACCESS_KEY_ID = 'AKIAV27ZCYO3NIGWWEEZ'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_S3_BUCKET = 'skkeng'
+AWS_S3_REGION_NAME = 'ap-northeast-1' # 例：'us-west-2'
 
-# Define a function to calculate the animal based on the date of birth
-def calculate_animal(date_of_birth):
-    year = date_of_birth.year
-    animal_index = (year - 4) % 12
-    animal = list(animals.keys())[animal_index]
-    return animal
+s3 = boto3.client('s3', 
+                  region_name=AWS_S3_REGION_NAME,
+                  aws_access_key_id=AWS_ACCESS_KEY_ID, 
+                  aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
-# Define the Streamlit app
+def load_data():
+    # S3からCSVを読み込み、DataFrameに変換
+    obj = s3.get_object(Bucket=AWS_S3_BUCKET, Key='df.csv')
+    df = pd.read_csv(StringIO(obj['Body'].read().decode('utf-8')))
+    return df
+
+def save_data(df):
+    # DataFrameをCSVに変換し、S3に保存
+    csv_buffer = StringIO()
+    df.to_csv(csv_buffer)
+    s3.put_object(Bucket=AWS_S3_BUCKET, Key='df.csv', Body=csv_buffer.getvalue())
+
+def create_df():
+    # 新たなDataFrameを作成
+    df = pd.DataFrame({'A': ['foo', 'bar', 'baz'],
+                       'B': ['qux', 'quux', 'quuz'],
+                       'C': [1, 2, 3]})
+    return df
+
 def app():
-    st.title("動物占いと格言作成")
-    st.write("誕生日を入力してください")
-    date_of_birth = st.date_input("Date of Birth")
-    if date_of_birth:
-        animal = calculate_animal(date_of_birth)
-        life_saying = animals[animal]
-        st.write(f"あなたの動物は{animal} あなたの格言は '{life_saying}'です")
+    st.title('S3 DataFrame App')
 
-# Call the app function to run the Streamlit app
-app()
+    if st.button('Create DataFrame'):
+        df = create_df()
+        save_data(df)
+        st.write('DataFrame created and saved to S3')
+
+    if st.button('Load DataFrame'):
+        df = load_data()
+        st.write(df)
+
+if __name__ == "__main__":
+    app()
